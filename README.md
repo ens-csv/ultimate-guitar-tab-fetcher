@@ -1,6 +1,6 @@
 # Ultimate Guitar Tab Fetcher & Transposer
 
-A simple Bash script to fetch guitar tabs from [Ultimate Guitar](https://tabs.ultimate-guitar.com/explore?type[]=Tabs) and transpose the tab numbers by a given value.
+A simple Bash script to fetch guitar tabs from [Ultimate Guitar](https://www.ultimate-guitar.com/explore?type[]=Tabs) and transpose the tab numbers by a given value.
 
 ## Features
 
