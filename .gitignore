@@ -1,0 +1,9 @@
+# Puppeteer downloads Chromium, exclude it if necessary
+node_modules/
+
+# Ignore Puppeteer browser cache
+.cache/
+
+# Logs
+*.log
+
