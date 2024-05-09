@@ -1,29 +1,32 @@
 #!/bin/bash
 
-# get_ultimate_guitar_tab.sh
 # A script to fetch and transpose guitar tabs from Ultimate Guitar.
-# Usage: ./get_ultimate_guitar_tab.sh <ultimate-guitar-tab-url> <transpose-value>
 
-# Check if URL and transpose value are provided as arguments
+# Check if URL and transpose value are provided
 if [ -z "$1" ] || [ -z "$2" ]; then
   echo "Usage: $0 <ultimate-guitar-tab-url> <transpose-value>"
-  echo "Example: $0 https://tabs.ultimate-guitar.com/tab/artist/song-id 2"
   exit 1
 fi
 
 URL=$1
 transpose_value=$2
 
-# Fetch the webpage content using curl
+# Fetch the webpage content
 content=$(curl -s "$URL")
 
-# Extract the tab section from the HTML (assuming tabs are within <pre> tags)
-tabs=$(echo "$content" | sed -n '/<pre/,/<\/pre>/p')
+# Check if the content contains tabs (adjust this if the structure changes)
+# Usually, tabs are stored inside 'js-store' or 'pre' tags, but we need to inspect it
+tabs=$(echo "$content" | grep -oP '(?<=<pre>).*(?=</pre>)')
 
-# Clean the tab data by removing HTML tags
+if [ -z "$tabs" ]; then
+  echo "Could not extract tabs. Check if the URL is correct or if the website structure has changed."
+  exit 1
+fi
+
+# Clean the tab data by stripping remaining HTML tags (if any)
 clean_tabs=$(echo "$tabs" | sed 's/<[^>]*>//g')
 
-# Function to transpose the tab numbers by the given value
+# Function to transpose the tab numbers
 transpose() {
   echo "$1" | sed -E "s/([0-9]+)/echo \$((\1 + $transpose_value))/ge"
 }
